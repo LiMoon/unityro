@@ -93,7 +93,7 @@ public class GameManager : MonoBehaviour {
     public void BeginMapLoading(string mapName) {
         if (!MapRenderer.Ready && MapLoader.Progress != 0)
             return;
-        SceneManager.LoadSceneAsync("LoadingScene", LoadSceneMode.Additive);
+        SceneManager.LoadSceneAsync(GameScene.Loading, LoadSceneMode.Additive);
         MapRenderer.Clear();
         EntityManager.ClearEntities();
         StartCoroutine(

@@ -13,7 +13,7 @@ public class SplashScreenController : MonoBehaviour
     }
 
     private void OnGrfLoaded() {
-        SceneManager.LoadScene("LoginScene");
+        SceneManager.LoadScene(GameScene.Login);
     }
 
     // Update is called once per frame

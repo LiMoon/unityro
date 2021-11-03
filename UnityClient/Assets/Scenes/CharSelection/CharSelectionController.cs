@@ -40,7 +40,7 @@ public class CharSelectionController : MonoBehaviour {
             currentCharactersInfo.Chars.Add(ACCEPT_MAKECHAR.characterData);
             characterSlots.Find(it => it.IsEmpty).BindData(ACCEPT_MAKECHAR.characterData);
 
-            SceneManager.UnloadSceneAsync(6);
+            SceneManager.UnloadSceneAsync(GameScene.CharCreation);
             EventSystem.gameObject.SetActive(true);
         }
     }
@@ -105,11 +105,11 @@ public class CharSelectionController : MonoBehaviour {
         if (character == null) {
             EventSystem.gameObject.SetActive(false);
             SceneManager.sceneUnloaded += delegate (Scene scene) {
-                if (scene.buildIndex == 6) {
+                if (scene.buildIndex == GameScene.CharCreation) {
                     EventSystem.gameObject.SetActive(true);
                 }
             };
-            SceneManager.LoadSceneAsync(6, LoadSceneMode.Additive);
+            SceneManager.LoadSceneAsync(GameScene.CharCreation, LoadSceneMode.Additive);
         } else {
             this.selectedCharacter = character;
         }

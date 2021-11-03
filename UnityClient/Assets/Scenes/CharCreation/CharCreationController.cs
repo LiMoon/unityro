@@ -87,7 +87,7 @@ public class CharCreationController : MonoBehaviour {
     }
 
     public void CloseWindow() {
-        SceneManager.UnloadSceneAsync(6);
+        SceneManager.UnloadSceneAsync(GameScene.CharCreation);
     }
 
     private void InitEntity(Entity entity, int sex = 1, int job = 0) {

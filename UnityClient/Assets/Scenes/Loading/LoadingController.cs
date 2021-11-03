@@ -14,7 +14,7 @@ public class LoadingController : MonoBehaviour {
 
     private void OnMapLoaded() {
         MapLoader.OnProgress -= OnProgress;
-        SceneManager.UnloadSceneAsync("LoadingScene");
+        SceneManager.UnloadSceneAsync(GameScene.Loading);
     }
 
     private void OnProgress(int progress) {

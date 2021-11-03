@@ -31,7 +31,7 @@ public class CharServerSelectionController : MonoBehaviour {
     private void OnEnterResponse(ushort cmd, int size, InPacket packet) {
         if(packet is HC.ACCEPT_ENTER) {
             NetworkClient.State.CurrentCharactersInfo = packet as HC.ACCEPT_ENTER;
-            SceneManager.LoadSceneAsync("CharSelectionScene");
+            SceneManager.LoadSceneAsync(GameScene.CharSelection);
         }
     }
 

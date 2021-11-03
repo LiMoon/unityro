@@ -58,7 +58,7 @@ public class LoginController : MonoBehaviour {
             var pkt = packet as AC.ACCEPT_LOGIN3;
 
             NetworkClient.State.LoginInfo = pkt;
-            SceneManager.LoadSceneAsync("CharServerSelectionScene");
+            SceneManager.LoadSceneAsync(GameScene.CharServerSelection);
         }
     }
 }
