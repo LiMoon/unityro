@@ -186,7 +186,7 @@ public class EntityViewer : MonoBehaviour {
 
             var diff = parentAnchor - ourAnchor;
 
-            transform.localPosition = new Vector3(diff.x, -diff.y, 0f) / SPR.PIXELS_PER_UNIT;
+            transform.localPosition = new Vector3(diff.x, -diff.y, -0.01f) / SPR.PIXELS_PER_UNIT;
         }
     }
 
