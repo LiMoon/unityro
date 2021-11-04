@@ -39,7 +39,9 @@ public class EntityViewer : MonoBehaviour {
     private int ActionId = -1;
     private double previousFrame = 0;
 
-    private MeshCollider meshCollider;
+    private MeshCollider MeshCollider;
+    private MeshRenderer MeshRenderer;
+    private MeshFilter MeshFilter;
     private Material SpriteMaterial;
 
     public void Init(SPR spr, ACT act) {
@@ -51,14 +53,18 @@ public class EntityViewer : MonoBehaviour {
     }
 
     public void Start() {
-        SpriteMaterial = Resources.Load("Materials/Sprites/SpriteMaterial") as Material;
+        SpriteMaterial = new Material(Shader.Find("Ragnarok/SpriteShader"));
         Init();
 
         InitShadow();
     }
 
     public void Init(bool reloadSprites = false) {
-        meshCollider = gameObject.GetOrAddComponent<MeshCollider>();
+        MeshCollider = gameObject.GetOrAddComponent<MeshCollider>();
+        MeshRenderer = gameObject.GetOrAddComponent<MeshRenderer>();
+        MeshFilter = gameObject.GetOrAddComponent<MeshFilter>();
+
+        MeshRenderer.material = SpriteMaterial;
 
         if (Entity.Type == EntityType.WARP) {
             return;
@@ -201,28 +207,30 @@ public class EntityViewer : MonoBehaviour {
         for (int i = 0; i < frame.layers.Length; i++) {
             var layer = frame.layers[i];
             var sprite = sprites[layer.index];
+            MeshFilter.sharedMesh = SpriteMeshBuilder.BuildSpriteMesh(frame, sprites);
+            SpriteMaterial.mainTexture = sprite.texture;
 
-            Layers.TryGetValue(i, out var spriteRenderer);
+            //Layers.TryGetValue(i, out var spriteRenderer);
 
-            if (spriteRenderer == null) {
-                var go = new GameObject($"Layer{i}");
-                spriteRenderer = go.AddComponent<SpriteRenderer>();
-                spriteRenderer.transform.SetParent(gameObject.transform, false);
-                spriteRenderer.material = SpriteMaterial;
-            }
+            //if (spriteRenderer == null) {
+            //    var go = new GameObject($"Layer{i}");
+            //    spriteRenderer = go.AddComponent<SpriteRenderer>();
+            //    spriteRenderer.transform.SetParent(gameObject.transform, false);
+            //    spriteRenderer.material = SpriteMaterial;
+            //}
 
-            CalculateSpritePositionScale(layer, sprite, out Vector3 scale, out Vector3 newPos, out Quaternion rotation);
+            //CalculateSpritePositionScale(layer, sprite, out Vector3 scale, out Vector3 newPos, out Quaternion rotation);
 
-            spriteRenderer.transform.localRotation = rotation;
-            spriteRenderer.transform.localPosition = newPos;
-            spriteRenderer.transform.localScale = scale;
+            //transform.localRotation = rotation;
+            //transform.localPosition = newPos;
+            //transform.localScale = scale;
 
-            spriteRenderer.sprite = sprite;
-            spriteRenderer.material.color = layer.color;
+            //spriteRenderer.sprite = sprite;
+            //spriteRenderer.material.color = layer.color;
 
-            if (!Layers.ContainsKey(i)) {
-                Layers.Add(i, spriteRenderer);
-            }
+            //if (!Layers.ContainsKey(i)) {
+            //    Layers.Add(i, spriteRenderer);
+            //}
         }
     }
 
@@ -233,7 +241,7 @@ public class EntityViewer : MonoBehaviour {
             mesh = SpriteMeshBuilder.BuildColliderMesh(frame, sprites);
             MeshCache.Add(frame, mesh);
         }
-        meshCollider.sharedMesh = mesh;
+        MeshCollider.sharedMesh = mesh;
     }
 
     private int GetCurrentFrame(long tm) {
