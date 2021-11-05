@@ -80,18 +80,21 @@ namespace ROIO.Loaders {
 
             // create model instances
             // HashSet<RSM> objectsSet = new HashSet<RSM>();
-            Task<RSM>[] tasks = new Task<RSM>[modelDescriptors.Count];
+            List<Task<RSM>> tasks = new List<Task<RSM>>();
+            
             for (int i = 0; i < modelDescriptors.Count; ++i) {
-                tasks[i] = Task.Run<RSM>(() => {
+                var t = Task.Run<RSM>(() => {
                     RSM model = FileManager.Load(modelDescriptors[i].filename) as RSM;
                     if (model != null) {
                         model.CreateInstance(modelDescriptors[i]);
                     }
                     return model;
                 });
+                tasks.Add(t);
             }
 
             RSM[] models = await Task.WhenAll(tasks);
+            tasks.Clear();
             FileCache.ClearAllWithExt("rsm");
             // RSM[] objects = new RSM[objectsSet.Count];
             // objectsSet.CopyTo(objects);
